@@ -49,7 +49,7 @@ let ncolumns =
           | _ -> failwith "stty"
         end
       | _ -> raise Not_found
-    with Unix.Unix_error _ | End_of_file | Failure _ ->
+    with Unix.Unix_error _ | End_of_file | Failure _ | Not_found ->
       try
         (* shell envvar *)
         int_of_string (Sys.getenv "COLUMNS")
