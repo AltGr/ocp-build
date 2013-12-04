@@ -215,6 +215,14 @@ let do_print_fancy_project_info pj =
         List.exists (fun pk -> pk.package_source_kind <> "meta") pkgs)
       pj.project_missing
   in
+  (* don't complain if there is no problem with the selected targets *)
+  if !targets_arg <> []
+  && List.for_all (fun (name,_) -> not (List.mem name !targets_arg)) missing
+  && List.for_all
+       (fun pk -> not (List.mem pk.package_name !targets_arg))
+       (Array.to_list pj.project_incomplete)
+  then ()
+  else
   let missing_roots =
     (* remove all missing pkgs that depend on another to get the missing roots *)
     List.filter
@@ -285,10 +293,7 @@ let do_print_fancy_project_info pj =
       List.map (fun pk -> pk.package_name) additional @ cantbuild
     end
   in
-  if cantbuild <> [] then
-    (* TODO: we should (exit 1) only if one of the provided targets
-cannot be built ! *)
-    ()
+  if cantbuild <> [] then exit 1
 
 let do_init_project_building cfg project_dir pj =
   let build_dir_basename = !build_dir_basename_arg in
