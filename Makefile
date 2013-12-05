@@ -191,3 +191,8 @@ make-boot:
            ./_obuild/ocp-build-engine/ocp-build-engine.cma \
            ./_obuild/ocp-build-lib/ocp-build-lib.cma \
            ./_obuild/ocp-build/buildMain.cmo
+
+.PHONY:quickboot
+quickboot:
+	make -C quickboot
+	cp quickboot/ocp-build $(OCPBUILD)

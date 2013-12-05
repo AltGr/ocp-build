@@ -1,0 +1,3 @@
+<**/*>: traverse,include
+<**/*.{byte,native}>: use_unix, linkdep(src/win32/win32_waitpids_c.o), linkdep(src/win32/win32_fileinfo_c.o)
+<src/ocplib/system/simpleConfig.ml>: pp(camlp4o)
